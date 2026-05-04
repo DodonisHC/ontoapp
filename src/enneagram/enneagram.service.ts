@@ -1,6 +1,6 @@
-import { ENNEAGRAM_TYPES } from './enneagram.data'
-import { EnneagramProfile } from './enneagram.model'
-import { EnneagramType } from '../shared/types'
+import { ENNEAGRAM_TYPES } from './enneagram.data.ts'
+import { EnneagramProfile } from './enneagram.model.ts'
+import { EnneagramType } from '../shared/types.ts'
 
 export class EnneagramService {
   getProfile(type: EnneagramType): EnneagramProfile | undefined {

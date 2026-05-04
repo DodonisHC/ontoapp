@@ -3,8 +3,8 @@
 import 'dotenv/config'
 import React from 'react'
 import { render } from 'ink'
-import { validateEnv } from './shared/env'
-import { App } from './tui/App'
+import { validateEnv } from './shared/env.ts'
+import { App } from './tui/App.tsx'
 
 // Validate environment on startup
 validateEnv()

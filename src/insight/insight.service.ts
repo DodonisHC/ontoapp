@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { getClaudeClient } from '../shared/claude.client'
-import { JOURNAL_ANALYSIS_PROMPT } from '../shared/claude.prompts'
-import { Insight, ReadingSuggestion } from './insight.model'
+import { getClaudeClient } from '../shared/claude.client.ts'
+import { JOURNAL_ANALYSIS_PROMPT } from '../shared/claude.prompts.ts'
+import { Insight, ReadingSuggestion } from './insight.model.ts'
 
 const claudeResponseSchema = z.object({
   enneagramType: z.number().int().min(1).max(9),

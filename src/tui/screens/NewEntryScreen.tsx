@@ -4,12 +4,12 @@ import { spawn } from 'child_process'
 import { tmpdir } from 'os'
 import { join } from 'path'
 import { writeFileSync, readFileSync, unlinkSync } from 'fs'
-import { JournalService } from '../../journal/journal.service'
-import { InsightService } from '../../insight/insight.service'
-import { InsightRepository } from '../../insight/insight.repository'
-import { Insight } from '../../shared/types'
-import { InsightCard } from '../components/InsightCard'
-import { StatusBar } from '../components/StatusBar'
+import { JournalService } from '../../journal/journal.service.ts'
+import { InsightService } from '../../insight/insight.service.ts'
+import { InsightRepository } from '../../insight/insight.repository.ts'
+import { Insight } from '../../shared/types.ts'
+import { InsightCard } from '../components/InsightCard.tsx'
+import { StatusBar } from '../components/StatusBar.tsx'
 
 type Props = {
   onBack: () => void

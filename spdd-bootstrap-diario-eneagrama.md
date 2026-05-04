@@ -10,7 +10,7 @@
 
 - **Linguagem/Runtime**: Node.js 20 + TypeScript (strict mode)
 - **TUI Framework**: [Ink](https://github.com/vadimdemedes/ink) (React para terminal) — componentes declarativos, estado com hooks
-- **Banco de dados**: PostgreSQL + Prisma ORM
+- **Banco de dados**: SQLite (desenvolvimento) + PostgreSQL (produção) + Prisma ORM
 - **IA**: Anthropic Claude API (análise das entradas do diário)
 - **Editor de texto no terminal**: `$EDITOR` do sistema (vim/nano) via `child_process.spawn` — sem reimplementar editor
 - **Variáveis de ambiente**: `dotenv` + validação Zod no startup

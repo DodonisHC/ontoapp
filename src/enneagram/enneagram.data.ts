@@ -1,4 +1,4 @@
-import { EnneagramProfile } from './enneagram.model'
+import { EnneagramProfile } from './enneagram.model.ts'
 
 export const ENNEAGRAM_TYPES: EnneagramProfile[] = [
   {

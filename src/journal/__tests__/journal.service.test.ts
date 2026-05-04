@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { JournalService } from '../journal.service'
+import { JournalService } from '../journal.service.ts'
 
 // Mock the repository
 vi.mock('../journal.repository', () => ({

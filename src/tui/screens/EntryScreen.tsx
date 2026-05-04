@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Text, useInput, type Key } from 'ink'
-import { JournalEntry } from '../../journal/journal.model'
-import { InsightCard } from '../components/InsightCard'
-import { StatusBar } from '../components/StatusBar'
-import { InsightService } from '../../insight/insight.service'
-import { InsightRepository } from '../../insight/insight.repository'
+import { JournalEntry } from '../../journal/journal.model.ts'
+import { InsightCard } from '../components/InsightCard.tsx'
+import { StatusBar } from '../components/StatusBar.tsx'
+import { InsightService } from '../../insight/insight.service.ts'
+import { InsightRepository } from '../../insight/insight.repository.ts'
 
 type Props = {
   entry: JournalEntry

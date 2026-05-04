@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { validateEnv } from './env'
+import { validateEnv } from './env.ts'
 
 let client: Anthropic
 

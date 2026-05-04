@@ -1,5 +1,5 @@
-import { JournalRepository } from './journal.repository'
-import { JournalEntry } from './journal.model'
+import { JournalRepository } from './journal.repository.ts'
+import { JournalEntry } from './journal.model.ts'
 
 export class JournalService {
   private repository = new JournalRepository()

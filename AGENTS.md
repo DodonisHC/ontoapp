@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário escreve entradas no editor do sistema, a aplicação salva no banco e gera insights via Anthropic Claude.
+Diário do Ser é uma aplicação web para diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário escreve entradas no navegador, a aplicação salva no banco e gera insights via Anthropic Claude.
 
 ## Propósito deste arquivo
 
@@ -14,8 +14,9 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 |---|---|
 | Runtime | Node.js >=20.0.0 |
 | Linguagem | TypeScript 5.x strict |
-| TUI | Ink 4.x |
-| Banco | PostgreSQL |
+| Frontend | Vite + React |
+| Backend | Express API |
+| Banco | SQLite (dev) + PostgreSQL (prod) |
 | ORM | Prisma 5.x |
 | IA | Anthropic Claude |
 | Testes | Vitest 1.x |
@@ -28,7 +29,8 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 | `src/journal/` | Entradas do diário e persistência |
 | `src/insight/` | Geração e persistência de insights |
 | `src/enneagram/` | Dados e lógica do Eneagrama |
-| `src/tui/` | Interface de terminal e navegação |
+| `src/web/` | Interface web (React) |
+| `src/server.ts` | API backend (Express) |
 | `src/shared/` | Tipos, validação e cliente Claude |
 
 ## Estrutura de Arquivos
@@ -43,8 +45,9 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 │   ├── journal/
 │   ├── insight/
 │   ├── enneagram/
-│   ├── shared/
-│   └── tui/
+│   ├── web/
+│   ├── server.ts
+│   └── shared/
 ├── spdd-bootstrap-diario-eneagrama.md
 ```
 
@@ -60,8 +63,16 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 
 ## Comandos
 
-- `npm run start` — inicia a TUI
-- `npm run dev` — inicia em watch mode
+### Backend API
+- `npm run start:api` — inicia o servidor backend
+- `npm run dev:api` — inicia o servidor backend em modo dev
+
+### Frontend Web
+- `npm run dev:web` — inicia a aplicação web no navegador
+- `npm run build:web` — compila a aplicação web para produção
+- `npm run preview:web` — faz preview da aplicação web compilada
+
+### Qualidade
 - `npm run lint` — executa ESLint
 - `npm run test` — executa Vitest
 - `npm run typecheck` — `tsc --noEmit`

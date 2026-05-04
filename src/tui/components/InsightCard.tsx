@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Text } from 'ink'
-import { Insight } from '../../shared/types'
-import { ENNEAGRAM_TYPES } from '../../enneagram/enneagram.data'
+import { Insight } from '../../shared/types.ts'
+import { ENNEAGRAM_TYPES } from '../../enneagram/enneagram.data.ts'
 
 type Props = {
   insight: Insight

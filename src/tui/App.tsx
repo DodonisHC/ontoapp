@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { HomeScreen } from './screens/HomeScreen'
-import { EntryScreen } from './screens/EntryScreen'
-import { NewEntryScreen } from './screens/NewEntryScreen'
-import { JournalEntry } from '../journal/journal.model'
+import { HomeScreen } from './screens/HomeScreen.tsx'
+import { EntryScreen } from './screens/EntryScreen.tsx'
+import { NewEntryScreen } from './screens/NewEntryScreen.tsx'
+import { JournalEntry } from '../journal/journal.model.ts'
 
 type Screen = 'home' | 'entry' | 'new-entry'
 

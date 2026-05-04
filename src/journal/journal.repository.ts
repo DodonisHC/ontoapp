@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { JournalEntry } from './journal.model'
+import { JournalEntry } from './journal.model.ts'
 
 export class JournalRepository {
   private prisma = new PrismaClient()
@@ -21,7 +21,7 @@ export class JournalRepository {
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,
             observation: entry.insight.observation,
-            readingSuggestion: entry.insight.readingSuggestion as any,
+            readingSuggestion: JSON.parse(entry.insight.readingSuggestion),
             rawAnalysis: entry.insight.rawAnalysis,
             createdAt: entry.insight.createdAt,
           }
@@ -47,7 +47,7 @@ export class JournalRepository {
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,
             observation: entry.insight.observation,
-            readingSuggestion: entry.insight.readingSuggestion as any,
+            readingSuggestion: JSON.parse(entry.insight.readingSuggestion),
             rawAnalysis: entry.insight.rawAnalysis,
             createdAt: entry.insight.createdAt,
           }
@@ -73,7 +73,7 @@ export class JournalRepository {
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,
             observation: entry.insight.observation,
-            readingSuggestion: entry.insight.readingSuggestion as any,
+            readingSuggestion: JSON.parse(entry.insight.readingSuggestion),
             rawAnalysis: entry.insight.rawAnalysis,
             createdAt: entry.insight.createdAt,
           }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Text, useInput, type Key } from 'ink'
-import { JournalService } from '../../journal/journal.service'
-import { JournalEntry } from '../../journal/journal.model'
-import { EntryList } from '../components/EntryList'
-import { StatusBar } from '../components/StatusBar'
+import { JournalService } from '../../journal/journal.service.ts'
+import { JournalEntry } from '../../journal/journal.model.ts'
+import { EntryList } from '../components/EntryList.tsx'
+import { StatusBar } from '../components/StatusBar.tsx'
 
 type Props = {
   onSelectEntry: (entry: JournalEntry) => void

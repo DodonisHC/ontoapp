@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { InsightService } from '../insight.service'
+import { InsightService } from '../insight.service.ts'
 
 // Mock Anthropic
 vi.mock('../../shared/claude.client', () => ({

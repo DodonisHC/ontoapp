@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text } from 'ink'
-import { JournalEntry } from '../../journal/journal.model'
+import { JournalEntry } from '../../journal/journal.model.ts'
 
 type Props = {
   entries: JournalEntry[]

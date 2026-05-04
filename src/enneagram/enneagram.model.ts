@@ -1,4 +1,4 @@
-import { EnneagramType } from '../shared/types'
+import { EnneagramType } from '../shared/types.ts'
 
 export type EnneagramProfile = {
   type: EnneagramType

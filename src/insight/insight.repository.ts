@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { Insight } from './insight.model'
+import { Insight } from './insight.model.ts'
 
 export class InsightRepository {
   private prisma = new PrismaClient()
@@ -12,7 +12,7 @@ export class InsightRepository {
         confidence: insight.confidence,
         ontologicalPhrase: insight.ontologicalPhrase,
         observation: insight.observation,
-        readingSuggestion: insight.readingSuggestion,
+        readingSuggestion: JSON.stringify(insight.readingSuggestion),
         rawAnalysis: insight.rawAnalysis,
       },
     })
@@ -23,7 +23,7 @@ export class InsightRepository {
       confidence: saved.confidence as any,
       ontologicalPhrase: saved.ontologicalPhrase,
       observation: saved.observation,
-      readingSuggestion: saved.readingSuggestion as any,
+      readingSuggestion: JSON.parse(saved.readingSuggestion),
       rawAnalysis: saved.rawAnalysis,
       createdAt: saved.createdAt,
     }

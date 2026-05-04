@@ -1,1 +1,1 @@
-export type { JournalEntry } from '../shared/types'
+export type { JournalEntry } from '../shared/types.ts'
