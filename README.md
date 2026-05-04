@@ -4,11 +4,22 @@ Diário do Ser é uma aplicação web para diário pessoal guiado pelo Eneagrama
 
 ## Visão Geral do Projeto
 
-- Web: Vite + React + Express API
-- Banco: SQLite local (desenvolvimento) + Prisma
-- IA: Anthropic Claude (premium) + Google Gemini (grátis) + OpenAI GPT-4 mini (grátis) para análise de entradas
-- Validação: Zod para ambiente e respostas externas
-- Testes: Vitest
+- **Web:** Vite + React + Express API
+- **Banco:** SQLite local (desenvolvimento) + Prisma
+- **IA:** Multi-provedor com fallback automático
+  - Google Gemini (grátis) ← Padrão gratuito
+  - Anthropic Claude (premium)
+  - OpenAI GPT-4 mini (pago)
+- **Validação:** Zod para ambiente e respostas externas
+- **Testes:** Vitest
+
+### Recursos de IA
+
+O Diário do Ser implementa **fallback automático entre provedores de IA**: se um serviço falhar ou não estiver configurado, o sistema tenta automaticamente o próximo provedor disponível. Isso garante máxima disponibilidade sem custos obrigatórios.
+
+**Prioridade:** Claude → Gemini → OpenAI
+
+Veja o [Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md) para configuração detalhada.
 
 ## Estrutura do Código
 
@@ -46,24 +57,92 @@ A aplicação web consome o backend em `http://localhost:4000` via proxy.
 
 O projeto exige variáveis de ambiente válidas antes de iniciar.
 
+### Configuração Rápida
+
 1. Copie `.env.example` para `.env`.
-2. Para desenvolvimento local, use SQLite com `DATABASE_URL="file:./dev.db"`.
-3. Se quiser gerar insights via Claude, defina também `ANTHROPIC_API_KEY`.
+2. Configure o banco de dados: `DATABASE_URL="file:./dev.db"`
+3. Configure **pelo menos um** provedor de IA (recomendamos Google Gemini - grátis):
 
-Exemplo mínimo de `.env`:
+### Opções de Provedor IA
 
+**Opção 1: Google Gemini (Grátis - Recomendado)**
 ```env
 DATABASE_URL="file:./dev.db"
+GOOGLE_API_KEY=sua_chave_aqui
+```
+Obtenha chave gratuita em: https://aistudio.google.com/app/apikey
+
+**Opção 2: Anthropic Claude (Premium)**
+```env
+DATABASE_URL="file:./dev.db"
+ANTHROPIC_API_KEY=sua_chave_aqui
 ```
 
-Para produção, você pode substituir `DATABASE_URL` por uma URL PostgreSQL válida.
-## Documentação e Planejamento
+**Opção 3: OpenAI GPT-4 mini (Pago)**
+```env
+DATABASE_URL="file:./dev.db"
+OPENAI_API_KEY=sua_chave_aqui
+```
 
-- `AGENTS.md` — guia de referência do repositório e padrões de código
-- `spdd-bootstrap-diario-eneagrama.md` — especificação da primeira feature, canvas e checklist de implementação
+**Opção 4: Múltiplos Provedores (Fallback)**
+```env
+DATABASE_URL="file:./dev.db"
+ANTHROPIC_API_KEY=chave_claude
+GOOGLE_API_KEY=chave_gemini
+OPENAI_API_KEY=chave_openai
+```
 
-## Boas práticas de documentação
+Quando múltiplos provedores estão configurados, o sistema usa automaticamente o próximo disponível se o primário falhar.
 
-1. Mantenha `README.md` como ponto de entrada principal do repositório.
-2. Use arquivos de planejamento como `spdd-bootstrap-diario-eneagrama.md` para requisitos, fluxos e decisões de implementação.
-3. Evite duplicar detalhes de especificação entre documentos.
+### Produção
+
+Para produção, substitua `DATABASE_URL` por uma URL PostgreSQL válida.
+
+> 📖 **Documentação completa:** Veja o [Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md) para instruções detalhadas de configuração, troubleshooting e exemplos de uso.
+## Documentação
+
+### Guias
+- **[Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md)** — Configuração completa dos 3 provedores (Claude, Gemini, OpenAI)
+
+### Referência do Projeto
+- `AGENTS.md` — Guia de referência do repositório e padrões de código
+- `spdd-bootstrap-diario-eneagrama.md` — Especificação da feature, canvas e checklist de implementação
+
+### Arquitetura de IA
+
+O sistema usa um **factory pattern** com fallback automático:
+
+```
+src/shared/
+├── ai.provider-factory.ts  # Factory + fallback logic
+├── claude.client.ts        # Anthropic Claude adapter
+├── gemini.client.ts        # Google Gemini adapter
+├── openai.client.ts        # OpenAI adapter
+└── types.ts               # AIProvider type definition
+```
+
+Cada cliente implementa a interface `AIProviderClient`:
+
+```typescript
+interface AIProviderClient {
+  generateInsight(content: string): Promise<Omit<Insight, 'id' | 'journalEntryId' | 'createdAt'>>
+}
+```
+
+A prioridade de fallback é determinada dinamicamente baseada nas chaves configuradas no `.env`.
+
+## Changelog
+
+### [Unreleased] - Multi-Provider AI Support
+- ✨ Adicionado suporte a Google Gemini (grátis)
+- ✨ Adicionado suporte a OpenAI GPT-4 mini
+- ✨ Implementado fallback automático entre provedores
+- ✨ Adicionado campo `provider` ao tipo `Insight`
+- 📖 Criado guia completo de configuração em `docs/AI_PROVIDERS_GUIDE.md`
+
+---
+
+**Links Úteis:**
+- [Google AI Studio](https://aistudio.google.com/app/apikey) — Obter chave Gemini gratuita
+- [Anthropic Console](https://console.anthropic.com/) — Console Claude
+- [OpenAI Platform](https://platform.openai.com/) — Console OpenAI
