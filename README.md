@@ -6,7 +6,7 @@ Diário do Ser é uma aplicação web para diário pessoal guiado pelo Eneagrama
 
 - Web: Vite + React + Express API
 - Banco: SQLite local (desenvolvimento) + Prisma
-- IA: Anthropic Claude para análise de entradas
+- IA: Anthropic Claude (premium) + Google Gemini (grátis) + OpenAI GPT-4 mini (grátis) para análise de entradas
 - Validação: Zod para ambiente e respostas externas
 - Testes: Vitest
 
@@ -16,7 +16,7 @@ Diário do Ser é uma aplicação web para diário pessoal guiado pelo Eneagrama
 - `src/insight/` — geração e persistência de insights
 - `src/enneagram/` — dados e lógica dos tipos
 - `src/web/` — interface web (React)
-- `src/shared/` — tipos, validação de ambiente e cliente Claude
+- `src/shared/` — tipos, validação de ambiente e clientes IA (Claude, Gemini, OpenAI)
 
 ## Comandos Úteis
 

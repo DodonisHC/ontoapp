@@ -1,22 +1,21 @@
-# SPDD Bootstrap — Diário do Ser (TUI)
+# SPDD Bootstrap — Diário do Ser (Web)
 
 ## Contexto do Sistema
 
-**Diário do Ser** é uma interface de terminal (TUI) para escrita de diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário abre o programa, navega entre entradas antigas, escreve novas reflexões e recebe insights sobre seus padrões — frases ontológicas e sugestões de leitura geradas pela análise do texto. A experiência é de um diário íntimo e inteligente, não de um chatbot.
+**Diário do Ser** é uma aplicação web para escrita de diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário abre o navegador, navega entre entradas antigas, escreve novas reflexões e recebe insights sobre seus padrões — frases ontológicas e sugestões de leitura geradas pela análise do texto. A experiência é de um diário íntimo e inteligente, não de um chatbot.
 
 ---
 
 ## Stack Técnica
 
 - **Linguagem/Runtime**: Node.js 20 + TypeScript (strict mode)
-- **TUI Framework**: [Ink](https://github.com/vadimdemedes/ink) (React para terminal) — componentes declarativos, estado com hooks
+- **Frontend**: Vite + React — componentes declarativos, estado com hooks
+- **Backend**: Express API — REST endpoints para journal e insights
 - **Banco de dados**: SQLite (desenvolvimento) + PostgreSQL (produção) + Prisma ORM
-- **IA**: Anthropic Claude API (análise das entradas do diário)
-- **Editor de texto no terminal**: `$EDITOR` do sistema (vim/nano) via `child_process.spawn` — sem reimplementar editor
+- **IA**: Anthropic Claude API (premium) + Google Gemini API (grátis) + OpenAI API (grátis) — análise das entradas do diário
 - **Variáveis de ambiente**: `dotenv` + validação Zod no startup
 - **Testes**: Vitest
 - **Qualidade**: ESLint + Prettier + `tsc --noEmit` no pre-commit via Husky
-- **Execução**: `npx ts-node src/index.ts`
 
 ---
 
@@ -39,40 +38,40 @@ src/
 │   ├── insight.service.ts
 │   └── insight.repository.ts
 │
-├── tui/                   # Telas e componentes da interface
-│   ├── App.tsx            # raiz do Ink — gerencia qual tela está ativa
-│   ├── screens/
-│   │   ├── HomeScreen.tsx        # lista de entradas recentes
-│   │   ├── EntryScreen.tsx       # visualiza entrada + insight
-│   │   └── NewEntryScreen.tsx    # abre editor externo + exibe insight após salvar
+├── web/                   # Telas e componentes da interface web
+│   ├── App.tsx            # raiz do React — gerencia rotas
+│   ├── pages/
+│   │   ├── HomePage.tsx          # lista de entradas recentes
+│   │   ├── EntryPage.tsx          # visualiza entrada + insight
+│   │   └── NewEntryPage.tsx       # formulário + exibe insight após salvar
 │   └── components/
 │       ├── EntryList.tsx
 │       ├── InsightCard.tsx
-│       └── StatusBar.tsx
+│       └── NavigationBar.tsx
 │
+├── server.ts              # API backend Express
 └── shared/
     ├── types.ts
     ├── env.ts                    # validação Zod
-    ├── claude.client.ts          # wrapper Anthropic SDK
-    └── claude.prompts.ts         # system prompts versionados
+    ├── ai.clients.ts             # wrappers Claude, Gemini, OpenAI
+    └── ai.prompts.ts             # system prompts versionados
 ```
 
-> **Regra de ouro**: `tui/` nunca acessa banco diretamente — sempre via services. `journal`, `enneagram` e `insight` não sabem que existe uma TUI.
+> **Regra de ouro**: `web/` nunca acessa banco diretamente — sempre via services. `journal`, `enneagram` e `insight` não sabem que existe uma interface web. IA services abstraem múltiplos provedores.
 
 ---
 
-## REASONS Canvas — Primeira Feature: Tela Inicial + Nova Entrada + Insight
+## REASONS Canvas — Primeira Feature: Página Inicial + Nova Entrada + Insight
 
 ### R — Requirements (Requisitos)
 
-- [ ] Ao abrir o programa, usuário vê a tela inicial com lista das entradas recentes (data + primeiras palavras)
-- [ ] Usuário navega com setas `↑ ↓` e seleciona uma entrada com `Enter` para lê-la
-- [ ] Tecla `n` abre o editor de texto do sistema (`$EDITOR`) para escrever nova entrada
-- [ ] Ao fechar o editor, o texto é salvo e enviado para análise via Claude API
+- [ ] Ao abrir a aplicação web, usuário vê a página inicial com lista das entradas recentes (data + primeiras palavras)
+- [ ] Usuário clica em uma entrada para lê-la
+- [ ] Botão "Nova Entrada" abre formulário para escrever nova entrada
+- [ ] Ao salvar, o texto é enviado para análise via Claude API
 - [ ] Enquanto analisa, tela exibe `Analisando sua entrada...`
 - [ ] Após análise, tela exibe o insight: tipo do eneagrama + frase ontológica + observação + sugestão de leitura
-- [ ] Tecla `q` sai do programa
-- [ ] Tecla `Esc` volta para a tela anterior
+- [ ] Navegação entre páginas via menu/header
 
 ### E — Entidades e Tipos
 
@@ -86,9 +85,12 @@ type JournalEntry = {
 }
 
 // insight/insight.model.ts
+type AIProvider = 'claude' | 'gemini' | 'openai'
+
 type Insight = {
   id: string
   journalEntryId: string
+  provider: AIProvider
   enneagramType: EnneagramType
   confidence: 'low' | 'medium' | 'high'
   ontologicalPhrase: string
@@ -106,11 +108,11 @@ type ReadingSuggestion = {
   reason: string
 }
 
-// tui/App.tsx — estado de navegação
-type Screen = 'home' | 'entry' | 'new-entry'
+// web/App.tsx — estado de navegação
+type Page = 'home' | 'entry' | 'new-entry'
 
 type AppState = {
-  screen: Screen
+  page: Page
   selectedEntryId: string | null
 }
 
@@ -126,11 +128,12 @@ type EnneagramProfile = {
 
 ### A — Abordagem Técnica
 
-- **TUI**: Ink + React hooks — `useState` para navegação entre telas, `useInput` para capturar teclas
-- **Editor de texto**: `spawn('$EDITOR', [tempFilePath])` — cria arquivo temporário, abre editor do sistema, lê conteúdo ao fechar. Não reimplementar editor no terminal.
-- **Análise IA**: Claude API chamada após fechar o editor; usar `useEffect` + estado `loading` na tela
+- **Frontend**: React + Vite — `useState` para navegação entre páginas, formulários controlados
+- **Backend**: Express API — endpoints REST para journal e insights
+- **Análise IA**: Múltiplos provedores (Claude, Gemini, OpenAI) com fallback automático
 - **Dados do eneagrama**: objeto estático em `enneagram.data.ts` — sem banco
-- **Navegação**: `App.tsx` controla a tela ativa via `useState<Screen>`; cada tela recebe callbacks para navegar
+- **Navegação**: `App.tsx` controla a página ativa via `useState<Page>`; cada página recebe callbacks para navegar
+- **Seleção de IA**: Usuário pode escolher provedor (grátis/pago) nas configurações
 - **Sem interface de repositório**: Prisma direto nos services — YAGNI
 
 ### S — Estrutura de Arquivos desta Feature
@@ -169,13 +172,13 @@ src/
 ### O — Operações a Implementar
 
 1. `listEntries()` — busca entradas ordenadas por data decrescente, com insight se existir
-2. `openEditorAndRead()` — cria temp file, spawn `$EDITOR`, retorna conteúdo ao fechar
-3. `createEntry(content)` — salva `JournalEntry` no banco
-4. `generateInsight(entry)` — chama Claude API, valida com Zod, retorna `Insight`
-5. `saveInsight(journalEntryId, result)` — persiste `Insight`
-6. `<HomeScreen>` — renderiza `<EntryList>` + `<StatusBar>`, captura teclas
-7. `<EntryScreen>` — exibe entrada completa + `<InsightCard>`
-8. `<NewEntryScreen>` — orquestra: abre editor → loading → exibe insight
+2. `createEntry(content)` — salva `JournalEntry` no banco
+3. `generateInsight(entry, provider)` — chama API escolhida, valida com Zod, retorna `Insight`
+4. `saveInsight(journalEntryId, result)` — persiste `Insight`
+5. `<HomePage>` — renderiza `<EntryList>` + `<NavigationBar>`, captura cliques
+6. `<EntryPage>` — exibe entrada completa + `<InsightCard>`
+7. `<NewEntryPage>` — formulário → loading → exibe insight
+8. `<SettingsPage>` — seleção de provedor IA (grátis/pago)
 
 ### N — Normas e Padrões
 

@@ -18,7 +18,7 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 | Backend | Express API |
 | Banco | SQLite (dev) + PostgreSQL (prod) |
 | ORM | Prisma 5.x |
-| IA | Anthropic Claude |
+| IA | Anthropic Claude (premium) + Google Gemini (grátis) + OpenAI GPT-4 mini (grátis) |
 | Testes | Vitest 1.x |
 | Lint | ESLint + Prettier |
 
@@ -31,7 +31,7 @@ Este documento é o guia de referência do repositório. Ele deve permanecer con
 | `src/enneagram/` | Dados e lógica do Eneagrama |
 | `src/web/` | Interface web (React) |
 | `src/server.ts` | API backend (Express) |
-| `src/shared/` | Tipos, validação e cliente Claude |
+| `src/shared/` | Tipos, validação e clientes IA (Claude, Gemini, OpenAI) |
 
 ## Estrutura de Arquivos
 
