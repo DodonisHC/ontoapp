@@ -101,12 +101,20 @@ Para produção, substitua `DATABASE_URL` por uma URL PostgreSQL válida.
 > 📖 **Documentação completa:** Veja o [Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md) para instruções detalhadas de configuração, troubleshooting e exemplos de uso.
 ## Documentação
 
-### Guias
-- **[Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md)** — Configuração completa dos 3 provedores (Claude, Gemini, OpenAI)
+### 📚 Guias Completos
 
-### Referência do Projeto
-- `AGENTS.md` — Guia de referência do repositório e padrões de código
-- `spdd-bootstrap-diario-eneagrama.md` — Especificação da feature, canvas e checklist de implementação
+| Documento | Descrição |
+|-----------|-----------|
+| **[Índice de Documentação](./docs/DOCUMENTATION_INDEX.md)** | 🗺️ Navegue por toda a documentação do projeto |
+| **[Guia de Desenvolvimento](./docs/DEVELOPMENT.md)** | 💻 Setup, fluxo de trabalho, padrões de código |
+| **[Arquitetura do Sistema](./docs/ARCHITECTURE.md)** | 🏗️ Visão técnica completa, padrões de design |
+| **[Documentação da API](./docs/API.md)** | 📡 Endpoints, exemplos, integração |
+| **[Guia de Deploy](./docs/DEPLOYMENT.md)** | 🚀 Deploy em VPS, Railway, Render, Docker |
+| **[Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md)** | 🤖 Configuração dos 3 provedores (Claude, Gemini, OpenAI) |
+
+### 📋 Referência Rápida
+- **[AGENTS.md](./AGENTS.md)** — Padrões de código, stack técnica, comandos
+- **[spdd-bootstrap-diario-eneagrama.md](./spdd-bootstrap-diario-eneagrama.md)** — Especificação da feature, canvas, checklist
 
 ### Arquitetura de IA
 
