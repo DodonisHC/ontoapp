@@ -2,20 +2,24 @@
 
 ## Visão Geral
 
-Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário escreve entradas no editor do sistema, a aplicação salva no banco e gera insights com o tipo do Eneagrama, uma frase ontológica e sugestão de leitura via Anthropic Claude.
+Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pelo Eneagrama e pela visão ontológica. O usuário escreve entradas no editor do sistema, a aplicação salva no banco e gera insights via Anthropic Claude.
+
+## Propósito deste arquivo
+
+Este documento é o guia de referência do repositório. Ele deve permanecer conciso e operacional, servindo como atalho para a documentação de implementação e o planejamento de features.
 
 ## Stack
 
-| Camada | Tecnologia | Versão |
-|---|---|---|
-| Runtime | Node.js | >=20.0.0 |
-| Linguagem | TypeScript | 5.x strict |
-| TUI | Ink | 4.x |
-| Banco | PostgreSQL | — |
-| ORM | Prisma | 5.x |
-| IA | Anthropic Claude | — |
-| Testes | Vitest | 1.x |
-| Lint | ESLint + Prettier | — |
+| Camada | Tecnologia |
+|---|---|
+| Runtime | Node.js >=20.0.0 |
+| Linguagem | TypeScript 5.x strict |
+| TUI | Ink 4.x |
+| Banco | PostgreSQL |
+| ORM | Prisma 5.x |
+| IA | Anthropic Claude |
+| Testes | Vitest 1.x |
+| Lint | ESLint + Prettier |
 
 ## Bounded Contexts
 
@@ -23,38 +27,25 @@ Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pel
 |---|---|
 | `src/journal/` | Entradas do diário e persistência |
 | `src/insight/` | Geração e persistência de insights |
-| `src/enneagram/` | Dados e perfis do Eneagrama |
+| `src/enneagram/` | Dados e lógica do Eneagrama |
 | `src/tui/` | Interface de terminal e navegação |
-| `src/shared/` | Tipos, validação de ambiente e cliente Claude |
+| `src/shared/` | Tipos, validação e cliente Claude |
 
 ## Estrutura de Arquivos
 
 ```
 .
 ├── AGENTS.md
+├── README.md
 ├── package.json
 ├── prisma/
 ├── src/
 │   ├── journal/
-│   │   ├── journal.model.ts
-│   │   ├── journal.service.ts
-│   │   └── journal.repository.ts
 │   ├── insight/
-│   │   ├── insight.model.ts
-│   │   ├── insight.service.ts
-│   │   └── insight.repository.ts
 │   ├── enneagram/
-│   │   ├── enneagram.model.ts
-│   │   ├── enneagram.data.ts
-│   │   └── enneagram.service.ts
 │   ├── shared/
-│   │   ├── env.ts
-│   │   ├── claude.client.ts
-│   │   └── claude.prompts.ts
 │   └── tui/
-│       ├── App.tsx
-│       ├── screens/
-│       └── components/
+├── spdd-bootstrap-diario-eneagrama.md
 ```
 
 ## Convenções
@@ -65,7 +56,7 @@ Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pel
 - Exportações nomeadas preferidas
 - TypeScript `strict: true`
 - Evite `any`; use `unknown` quando necessário
-- Zod para validação de ambiente e respostas externas
+- Use Zod para validação de ambiente e respostas externas
 
 ## Comandos
 
@@ -76,7 +67,9 @@ Diário do Ser é uma aplicação terminal (TUI) para diário pessoal guiado pel
 - `npm run typecheck` — `tsc --noEmit`
 - `npm run harness` — validação completa (`typecheck && lint && test`)
 
-## SPDD
+## Documentação do Projeto
 
-- O primeiro fluxo foi implementado com base no REASONS Canvas de nova entrada e insight.
-- Antes de gerar novas features, leia o canvas relevante e mantenha o agente alinhado com o domínio.
+- `README.md` — visão geral e ponto de entrada principal do repositório
+- `spdd-bootstrap-diario-eneagrama.md` — especificação da feature, canvas e checklist de implementação
+
+> Mantenha a documentação modular: informações estáveis no README e detalhes de execução em arquivos de feature.
