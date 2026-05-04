@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { JournalEntry } from './journal.model.ts'
+import { JournalEntry } from './journal.model'
 
 export class JournalRepository {
   private prisma = new PrismaClient()
@@ -17,6 +17,7 @@ export class JournalRepository {
         ? {
             id: entry.insight.id,
             journalEntryId: entry.insight.journalEntryId,
+            provider: 'claude', // Default for existing data
             enneagramType: entry.insight.enneagramType as any,
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,
@@ -43,6 +44,7 @@ export class JournalRepository {
         ? {
             id: entry.insight.id,
             journalEntryId: entry.insight.journalEntryId,
+            provider: 'claude', // Default for existing data
             enneagramType: entry.insight.enneagramType as any,
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,
@@ -69,6 +71,7 @@ export class JournalRepository {
         ? {
             id: entry.insight.id,
             journalEntryId: entry.insight.journalEntryId,
+            provider: 'claude', // Default for existing data
             enneagramType: entry.insight.enneagramType as any,
             confidence: entry.insight.confidence as any,
             ontologicalPhrase: entry.insight.ontologicalPhrase,

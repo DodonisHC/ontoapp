@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { Insight } from './insight.model.ts'
+import { Insight } from '../shared/types'
 
 export class InsightRepository {
   private prisma = new PrismaClient()
@@ -14,11 +14,13 @@ export class InsightRepository {
         observation: insight.observation,
         readingSuggestion: JSON.stringify(insight.readingSuggestion),
         rawAnalysis: insight.rawAnalysis,
+        // Note: 'provider' field needs to be added to Prisma schema
       },
     })
     return {
       id: saved.id,
       journalEntryId: saved.journalEntryId,
+      provider: insight.provider || 'claude', // Default for backwards compatibility
       enneagramType: saved.enneagramType as any,
       confidence: saved.confidence as any,
       ontologicalPhrase: saved.ontologicalPhrase,
