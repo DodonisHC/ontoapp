@@ -110,7 +110,8 @@ Para produção, substitua `DATABASE_URL` por uma URL PostgreSQL válida.
 | **[Arquitetura do Sistema](./docs/ARCHITECTURE.md)** | 🏗️ Visão técnica completa, padrões de design |
 | **[Documentação da API](./docs/API.md)** | 📡 Endpoints, exemplos, integração |
 | **[Guia de Deploy](./docs/DEPLOYMENT.md)** | 🚀 Deploy em VPS, Railway, Render, Docker |
-| **[Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md)** | 🤖 Configuração dos 3 provedores (Claude, Gemini, OpenAI) |
+| **[Guia de Provedores de IA](./docs/AI_PROVIDERS_GUIDE.md)** | 🤖 Configuração completa dos 3 provedores (Claude, Gemini, OpenAI) |
+| **[Guia de Segurança](./docs/SECURITY.md)** | 🔒 Score A-, medidas de proteção, OWASP Top 10 |
 
 ### 📋 Referência Rápida
 - **[AGENTS.md](./AGENTS.md)** — Padrões de código, stack técnica, comandos
@@ -141,12 +142,29 @@ A prioridade de fallback é determinada dinamicamente baseada nas chaves configu
 
 ## Changelog
 
-### [Unreleased] - Multi-Provider AI Support
+### [Unreleased] - Multi-Provider AI Support + Security Hardening
+
+**Features:**
 - ✨ Adicionado suporte a Google Gemini (grátis)
 - ✨ Adicionado suporte a OpenAI GPT-4 mini
 - ✨ Implementado fallback automático entre provedores
 - ✨ Adicionado campo `provider` ao tipo `Insight`
+
+**Security (Score A- 🔒):**
+- 🔒 Rate limiting: 100 req/15min geral, 10 req/1min criação
+- 🔒 Input sanitization: Proteção contra XSS
+- 🔒 UUID validation em todos os endpoints
+- 🔒 Security headers OWASP-compliant (Helmet)
+- 🔒 CORS controlado por whitelist
+- 🔒 Error sanitization (sem stack traces em produção)
+- 🔒 Proteção de chaves API (mascaramento em logs)
+- 🔒 Request timeout de 30 segundos
+- 🔒 Content size limit de 10MB
+- 🔒 Health check endpoint
+
+**Documentação:**
 - 📖 Criado guia completo de configuração em `docs/AI_PROVIDERS_GUIDE.md`
+- 📖 Criado `docs/SECURITY.md` com Score A- e OWASP Top 10
 
 ---
 

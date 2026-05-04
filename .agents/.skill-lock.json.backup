@@ -20,7 +20,21 @@
       "source": "local",
       "contentHash": "c49827c59d2e27d313731dfd36314cfde0e8dbf15be0e8f813d2f8b751546b0c",
       "installedAt": "2026-05-04T04:47:00.091Z",
-      "updatedAt": "2026-05-04T04:47:00.104Z",
+      "updatedAt": "2026-05-04T04:47:00.114Z",
+      "agents": [
+        "cursor",
+        "claude-code",
+        "windsurf"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "best-practices": {
+      "name": "best-practices",
+      "source": "local",
+      "contentHash": "2abba650ba22a819e67f8c2fb09d0f5f33a24d66d945ee2ef824751bc97151ce",
+      "installedAt": "2026-05-04T06:07:37.526Z",
+      "updatedAt": "2026-05-04T06:07:37.535Z",
       "agents": [
         "cursor",
         "claude-code"

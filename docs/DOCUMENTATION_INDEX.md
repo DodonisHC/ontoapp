@@ -103,15 +103,18 @@ ontoapp/
 ├── AGENTS.md                      # Guia de referência
 ├── spdd-bootstrap-diario-eneagrama.md  # Especificação
 │
-├── docs/                          # Documentação técnica
-│   ├── DOCUMENTATION_INDEX.md    # Este arquivo
-│   ├── ARCHITECTURE.md           # Arquitetura do sistema
-│   ├── API.md                    # Documentação da API
-│   ├── DEVELOPMENT.md            # Guia de desenvolvimento
-│   ├── DEPLOYMENT.md             # Guia de deploy
-│   └── AI_PROVIDERS_GUIDE.md     # Configuração de IA
-│
-├── src/                          # Código fonte
+├── docs/                       ### 📚 Guias Completos
+
+| Documento | Descrição |
+|-----------|-----------|
+| **[Índice de Documentação](./DOCUMENTATION_INDEX.md)** | 🗺️ Navegue por toda a documentação do projeto |
+| **[Guia de Desenvolvimento](./DEVELOPMENT.md)** | 💻 Setup, fluxo de trabalho, padrões de código |
+| **[Arquitetura do Sistema](./ARCHITECTURE.md)** | 🏗️ Visão técnica completa, padrões de design |
+| **[Documentação da API](./API.md)** | 📡 Endpoints, exemplos, integração |
+| **[Guia de Deploy](./DEPLOYMENT.md)** | 🚀 Deploy em VPS, Railway, Render, Docker |
+| **[Guia de Provedores de IA](./AI_PROVIDERS_GUIDE.md)** | 🤖 Configuração dos 3 provedores (Claude, Gemini, OpenAI) |
+| **[Guia de Segurança](./SECURITY.md)** | 🔒 Score A-, medidas de proteção, OWASP |
+
 │   ├── journal/                  # Domínio: entradas do diário
 │   ├── insight/                  # Domínio: geração de insights
 │   ├── enneagram/                # Domínio: tipos do Eneagrama

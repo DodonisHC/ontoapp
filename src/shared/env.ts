@@ -11,11 +11,43 @@ export type Env = z.infer<typeof envSchema>
 
 let env: Env
 
+function maskSensitiveValue(value: string | undefined): string {
+  if (!value) return '[NOT SET]'
+  if (value.length <= 8) return '***'
+  return value.slice(0, 4) + '****' + value.slice(-4)
+}
+
+function formatEnvError(error: z.ZodError): Record<string, string> {
+  const issues = error.issues
+  const formatted: Record<string, string> = {}
+  
+  for (const issue of issues) {
+    const path = issue.path[0] as string
+    if (path.includes('KEY') || path.includes('URL')) {
+      formatted[path] = `[MASKED] ${issue.message}`
+    } else {
+      formatted[path] = issue.message
+    }
+  }
+  
+  return formatted
+}
+
 export function validateEnv(): Env {
   if (!env) {
     const result = envSchema.safeParse(process.env)
     if (!result.success) {
-      console.error('Invalid environment variables:', result.error.format())
+      // 🔒 Security: mask sensitive values in logs
+      console.error('❌ Invalid environment variables:')
+      const formatted = formatEnvError(result.error)
+      Object.entries(formatted).forEach(([key, message]) => {
+        console.error(`  - ${key}: ${message}`)
+      })
+      console.error('\n🔑 API Keys status (masked):')
+      console.error(`  ANTHROPIC_API_KEY: ${maskSensitiveValue(process.env.ANTHROPIC_API_KEY)}`)
+      console.error(`  GOOGLE_API_KEY: ${maskSensitiveValue(process.env.GOOGLE_API_KEY)}`)
+      console.error(`  OPENAI_API_KEY: ${maskSensitiveValue(process.env.OPENAI_API_KEY)}`)
+      console.error(`  DATABASE_URL: ${process.env.DATABASE_URL ? '[CONFIGURED]' : '[NOT SET]'}`)
       process.exit(1)
     }
     env = result.data
