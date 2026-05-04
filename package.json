@@ -1,0 +1,45 @@
+{
+  "name": "diario-do-ser",
+  "version": "1.0.0",
+  "description": "TUI para diário pessoal guiado pelo Eneagrama",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "npx ts-node src/index.tsx",
+    "dev": "npx ts-node --watch src/index.tsx",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "harness": "npm run typecheck && npm run lint && npm run test",
+    "format": "prettier --write src",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.17.1",
+    "@prisma/client": "^5.7.1",
+    "dotenv": "^16.3.1",
+    "ink": "^4.4.1",
+    "react": "^18.2.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.56.0",
+    "husky": "^8.0.3",
+    "prettier": "^3.1.1",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  }
+}
